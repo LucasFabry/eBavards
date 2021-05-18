@@ -125,17 +125,20 @@ public class FenetreBavard extends JFrame implements ActionListener{
 		
 		/**
 		 * 
-		 * Si on appuie sur envoyer message, le message s'envoie
+		 * Si on appuie sur envoyer message, le message s'envoie on vérifie cependant que le message n'est pas vide
 		 * 
 		 * */
 		if(e.getSource() == bouton) {
 			String texte = message.getText();
 			String objet = textfield.getText();
-			this.b.envoyerMessage(texte, objet, this.c);
-			this.liste.clearSelection();
-			this.message.setText("");
-		}
+			if(!texte.trim().equals("") && !objet.trim().equals("")) {
+				this.b.envoyerMessage(texte, objet, this.c);
+				this.liste.clearSelection();
+				this.message.setText("");
+			}
 			
+		}
+		
 			
 		/**
 		 * 
@@ -164,7 +167,7 @@ public class FenetreBavard extends JFrame implements ActionListener{
 		}
 	}
 	
-	private void seDeconnecter() {
+	public void seDeconnecter() {
 		this.c.deconnecterBavards(this.b);
 		
 		/**
@@ -176,8 +179,9 @@ public class FenetreBavard extends JFrame implements ActionListener{
 		
 		this.message.setEditable(false);
 		this.boutonDeco.setText("Connexion");
+		this.listeBavardsCo.clear();
 		
-		
+		bouton.setVisible(false);
 		//this.dispose();
 	}
 	
@@ -204,11 +208,26 @@ public class FenetreBavard extends JFrame implements ActionListener{
 		
 		/**
 		 * 
-		 * On vient de se reconnecter, donc on rend de nouveau éditable la zone de texte;
+		 * On vient de se reconnecter, donc on rend de nouveau éditable la zone de texte; On récupère la liste des connectés
 		 * 
 		 * */
 		this.message.setEditable(true);
 		this.boutonDeco.setText("Déconnexion");
+		
+		listeBavardsCo.addElement("Listes des bavards connectés");
+		for(Bavards bava : this.c.getBavarsCo()) {
+		    if(bava.getNom() != this.b.getNom()) {
+		    	this.listeBavardsCo.addElement(bava.getNom());
+		    }   	
+		}
+		
+		/**
+		 * 
+		 * On rend visible le bouton d'envoie
+		 * 
+		 * */
+		bouton.setVisible(true);
+		
 	}
 	/**
 	 * 

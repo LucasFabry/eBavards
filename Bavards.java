@@ -37,7 +37,7 @@ public class Bavards implements PapotageListener{
 	
 	/**
 	 * 
-	 * Lorsqu'on reçoit la connexion d'un nouveau membre !
+	 * Lorsqu'on reçoit la connexion/deconnexion d'un nouveau membre !
 	 * 
 	 * */
 	public void connexionAutre(Bavards b) {

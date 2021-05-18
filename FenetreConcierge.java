@@ -99,7 +99,7 @@ public class FenetreConcierge extends JFrame implements ActionListener{
 			if(!this.liste.isSelectionEmpty()) {
 				for(Bavards b : this.c.getBavarsCo()) {
 					if(b.getNom().equalsIgnoreCase((String)this.liste.getSelectedValue())) {
-						this.c.deconnecterBavards(b);
+						b.getFe().seDeconnecter();
 					}
 				}
 			}

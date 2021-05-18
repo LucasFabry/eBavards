@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
@@ -38,7 +39,6 @@ public class Concierge {
 		listeNoms.add(b.getNom());
 		b.creerFe(this);
 		this.connecterBavards(b);
-		
 	}
 	
 	public void retirerBavard(Bavards b) {
@@ -50,10 +50,27 @@ public class Concierge {
 		 * 
 		 * Afin de bien identifier chaque bavard, on interdit pour le moment les doubles-noms, ci un nom est déjà pris on ajoute un nombre derrière. Ceci est géré par la méthode pseudoUnique
 		 * */
+		if(nom.trim().equals("")) {
+			/**
+			 * Si pas de pseudo saisi on crée un pseudo de 6 lettres aléatoires
+			 * */
+			Random rand = new Random();
+			nom = nom.trim();
+			String alphabet = "abcdefghijklmnopqrstuvwxyz123456789";
+			int longueur = alphabet.length();
+			for(int i = 0; i < 6; i++) {
+			  int k = rand.nextInt(longueur);
+			  nom += alphabet.charAt(k);
+			}
+		}
 		String nomFinal = pseudoUnique(nom);
+		
 		return new Bavards(nomFinal);
 	}
 	
+	/**
+	 * Permet de générer un pseudo pour chaque Bavard
+	 * */
 	public String pseudoUnique(String nom) {
 		boolean pseudoUnique = false;
 		String pseudoFinal = nom;
@@ -88,6 +105,9 @@ public class Concierge {
 	public void deconnecterBavards(Bavards b) {
 		listeBavardsCo.remove(b);
 		this.fc.desinscrireBavards(b);
+		/**
+		 * On envoie aux autres bavards qu'on se déconnecte 
+		 * */
 		for(Bavards bav : listeBavardsCo) {
 			bav.deconnexionAutre(b);
 		}
@@ -109,7 +129,7 @@ public class Concierge {
 		//Si le message contient /chuchoter en premier lieu on va chuchoter le pseudo qui arrive en 2e dans le split
 		
 		String[] messageSplit = pe.getCorps().split(" ");
-		System.out.println(messageSplit[0]);
+		
 		if(messageSplit[0].equalsIgnoreCase("/chuchoter")) {
 			System.out.println("je suis là !");
 			//Si le pseudo est connecté, on envoie le message
